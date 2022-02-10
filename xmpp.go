@@ -570,6 +570,7 @@ type Chat struct {
 	Text      string
 	Subject   string
 	Thread    string
+	Url       string
 	Roster    Roster
 	Other     []string
 	OtherElem []XMLElement
@@ -621,6 +622,7 @@ func (c *Client) Recv() (stanza interface{}, err error) {
 				Text:      v.Body,
 				Subject:   v.Subject,
 				Thread:    v.Thread,
+				Url:       v.Url,
 				Other:     v.OtherStrings(),
 				OtherElem: v.Other,
 				Stamp:     stamp,
@@ -657,7 +659,7 @@ func (c *Client) Send(chat Chat) (n int, err error) {
 	if chat.Thread != `` {
 		thdtext = `<thread>` + xmlEscape(chat.Thread) + `</thread>`
 	}
-	return fmt.Fprintf(c.conn, "<message to='%s' type='%s' xml:lang='en'>" + subtext + "<body>%s</body>" + thdtext + "</message>",
+	return fmt.Fprintf(c.conn, "<message to='%s' type='%s' xml:lang='en'>"+subtext+"<body>%s</body>"+thdtext+"</message>",
 		xmlEscape(chat.Remote), xmlEscape(chat.Type), xmlEscape(chat.Text))
 }
 
@@ -767,6 +769,7 @@ type clientMessage struct {
 	// These should technically be []clientText, but string is much more convenient.
 	Subject string `xml:"subject"`
 	Body    string `xml:"body"`
+	Url     string `xml:"url"`
 	Thread  string `xml:"thread"`
 
 	// Any hasn't matched element
