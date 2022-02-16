@@ -442,7 +442,7 @@ func (c *Client) init(o *Options) error {
 
 	// Now that we're authenticated, we're supposed to start the stream over again.
 	// Declare intent to be a jabber client.
-	if f, err = c.startStream(o, domain); err != nil {
+	if _, err = c.startStream(o, domain); err != nil {
 		return err
 	}
 
@@ -959,3 +959,30 @@ func (t tee) Read(p []byte) (n int, err error) {
 	}
 	return
 }
+
+/*Selbst hinzugefügt
+
+// Request Url for Upload (Kopie von Send Funktion)
+func (c *Client) Send(chat Chat) (n int, err error) {
+	var subtext = ``
+	var thdtext = ``
+	if chat.Subject != `` {
+		subtext = `<subject>` + xmlEscape(chat.Subject) + `</subject>`
+	}
+	if chat.Thread != `` {
+		thdtext = `<thread>` + xmlEscape(chat.Thread) + `</thread>`
+	}
+	return fmt.Fprintf(c.conn, "<message to='%s' type='%s' xml:lang='en'>"+subtext+"<body>%s</body>"+thdtext+"</message>",
+		xmlEscape(chat.Remote), xmlEscape(chat.Type), xmlEscape(chat.Text))
+}
+
+// UploadFiles makes a request to the API with files.
+func (c *Client) UploadFiles(chat Chat, files []RequestFile) (*APIResponse, error) {
+
+	filepath.Ext(fi.name)
+
+	fmt.Fprintf(c.conn, "<message to='%s' type='get'>"+"</message>",
+		xmlEscape(chat.Remote), xmlEscape(chat.Type), xmlEscape(chat.Text))
+	return
+}
+*/
